@@ -88,7 +88,7 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
                   </defs>
                   <Tooltip 
                     contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 40px -10px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }}
-                    formatter={(value: number) => [formatCurrency(value), '']}
+                    formatter={(value: any) => [formatCurrency(Number(value || 0)), '']}
                     labelFormatter={(label) => `Day ${label}`}
                     cursor={{ stroke: '#000000', strokeWidth: 1, strokeDasharray: '4 4' }}
                   />
