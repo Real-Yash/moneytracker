@@ -1,65 +1,102 @@
-import Image from "next/image";
+import { getTransactions } from '@/lib/actions'
+import { Navigation } from '@/components/Navigation'
+import { TransactionItem } from '@/components/TransactionItem'
+import { Transaction } from '@/lib/types'
+import { calculateSummaries, formatCurrency } from '@/lib/utils'
+import { format } from 'date-fns'
 
-export default function Home() {
+export default async function DashboardPage() {
+  const transactions: Transaction[] = await getTransactions()
+  const { income, expenses, balance } = calculateSummaries(transactions)
+  const recentTransactions = transactions.slice(0, 5)
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-background pb-32">
+      <header className="px-lg pt-xl pb-lg flex justify-between items-center bg-white/50 backdrop-blur-md sticky top-0 z-30">
+        <div>
+          <h1 className="text-headline-lg text-primary tracking-tighter">MoneyTrack</h1>
+          <p className="text-label-sm text-on-surface-variant uppercase tracking-[0.2em] font-bold opacity-60">
+            {format(new Date(), 'EEEE, MMMM do')}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="w-12 h-12 rounded-2xl bg-primary shadow-lg flex items-center justify-center text-white transition-transform active:scale-95">
+          <span className="material-symbols-outlined">person</span>
         </div>
+      </header>
+
+      <main className="px-lg space-y-xl mt-4">
+        {/* Balance Card */}
+        <section className="bg-primary text-white p-xl rounded-[3rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 transition-transform group-hover:scale-110 duration-700"></div>
+          <div className="relative z-10">
+            <p className="text-label-sm uppercase tracking-[0.3em] font-bold opacity-50 mb-4">Current Liquidity</p>
+            <h2 className="text-[44px] font-bold leading-none tracking-tighter mb-xl">
+              {formatCurrency(balance)}
+            </h2>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white/10 backdrop-blur-md p-lg rounded-[2rem] border border-white/10">
+                <div className="flex items-center gap-2 mb-2 opacity-60">
+                  <span className="material-symbols-outlined text-[16px]">arrow_downward</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Inflow</span>
+                </div>
+                <p className="text-headline-sm font-bold">{formatCurrency(income)}</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md p-lg rounded-[2rem] border border-white/10">
+                <div className="flex items-center gap-2 mb-2 opacity-60">
+                  <span className="material-symbols-outlined text-[16px]">arrow_upward</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Outflow</span>
+                </div>
+                <p className="text-headline-sm font-bold">{formatCurrency(expenses)}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Categories / Quick Access */}
+        <section>
+          <h3 className="text-label-sm uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-6 px-sm opacity-60">
+            Mindful Categories
+          </h3>
+          <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-lg px-lg">
+            {['Analysis', 'Savings', 'Budget', 'Bills', 'Goals'].map((item) => (
+              <button key={item} className="flex-shrink-0 px-8 py-4 bg-white rounded-3xl border border-neutral-100 text-label-md font-bold hover:bg-primary hover:text-white transition-all shadow-sm active:scale-95">
+                {item}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Recent Transactions */}
+        <section>
+          <div className="flex justify-between items-end mb-8 px-sm">
+            <div>
+              <h3 className="text-headline-sm font-bold">Recent activity</h3>
+              <p className="text-label-sm text-on-surface-variant font-medium">Your latest financial logs</p>
+            </div>
+            <a href="/transactions" className="text-label-sm font-bold text-primary uppercase tracking-widest hover:underline">
+              View all
+            </a>
+          </div>
+          
+          <div className="space-y-4">
+            {recentTransactions.length === 0 ? (
+              <div className="text-center py-20 bg-white rounded-[3rem] border border-dashed border-neutral-200">
+                <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-surface-variant opacity-40">
+                  <span className="material-symbols-outlined text-3xl">receipt_long</span>
+                </div>
+                <p className="text-on-surface-variant text-label-md font-bold uppercase tracking-widest opacity-40">No entries detected</p>
+              </div>
+            ) : (
+              recentTransactions.map((t) => (
+                <TransactionItem key={t.id} transaction={t} />
+              ))
+            )}
+          </div>
+        </section>
       </main>
+
+      <Navigation />
     </div>
-  );
+  )
 }
