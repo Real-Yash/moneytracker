@@ -35,10 +35,10 @@ export default function TransactionsClient({ initialTransactions }: Transactions
   })
 
   return (
-    <div className="min-h-screen bg-background pb-32 lg:pb-0 lg:pl-64">
-      <header className="bg-white border-b border-neutral-100 sticky top-0 z-50 flex justify-between items-center w-full px-4 h-16 lg:px-xl">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container lg:hidden">
+    <div className="min-h-screen bg-background pb-[128px] lg:pb-0 lg:pl-[256px]">
+      <header className="bg-white border-b border-neutral-100 sticky top-0 z-50 flex justify-between items-center w-full px-md h-[64px] lg:px-xl">
+        <div className="flex items-center gap-md">
+          <div className="w-[32px] h-[32px] rounded-full bg-primary-container flex items-center justify-center text-on-primary-container lg:hidden">
             <span className="material-symbols-outlined text-sm">person</span>
           </div>
           <h1 className="text-label-md font-bold text-neutral-900 uppercase tracking-widest">Transaction History</h1>
@@ -48,25 +48,25 @@ export default function TransactionsClient({ initialTransactions }: Transactions
         </div>
       </header>
 
-      <main className="px-md mt-4 max-w-5xl mx-auto lg:px-xl lg:py-lg">
-        <section className="py-md space-y-md lg:bg-white lg:p-lg lg:rounded-[2rem] lg:border lg:border-neutral-100 lg:shadow-sm">
+      <main className="px-md mt-[16px] max-w-5xl mx-auto lg:px-xl lg:py-lg">
+        <section className="py-md space-y-md lg:bg-white lg:p-lg lg:rounded-[32px] lg:border lg:border-neutral-100 lg:shadow-sm">
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <span className="material-symbols-outlined absolute left-[16px] top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
             <input 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-14 bg-surface-container border-none rounded-2xl pl-12 pr-4 py-3 text-body-md focus:ring-2 focus:ring-primary/10 transition-all placeholder:text-on-tertiary-container" 
+              className="w-full h-[56px] bg-surface-container border-none rounded-2xl pl-[48px] pr-md py-3 text-body-md focus:ring-2 focus:ring-primary/10 transition-all placeholder:text-on-tertiary-container" 
               placeholder="Search by note or category..." 
               type="text"
             />
           </div>
           <div className="flex gap-sm overflow-x-auto no-scrollbar pb-xs lg:overflow-visible">
-            {['all', 'income', 'expense'].map((type) => (
+            {(['all', 'income', 'expense'] as const).map((type) => (
               <button 
                 key={type}
-                onClick={() => setFilterType(type as any)}
+                onClick={() => setFilterType(type)}
                 className={clsx(
-                  "flex items-center gap-base px-md py-2.5 rounded-full text-label-md transition-all active:scale-95 whitespace-nowrap lg:px-8",
+                  "flex items-center gap-base px-md py-[10px] rounded-full text-label-md transition-all active:scale-95 whitespace-nowrap lg:px-8",
                   filterType === type ? "bg-primary text-on-primary shadow-md" : "bg-surface-container text-on-surface hover:bg-surface-container-high"
                 )}
               >
@@ -76,10 +76,10 @@ export default function TransactionsClient({ initialTransactions }: Transactions
           </div>
         </section>
 
-        <div className="space-y-lg mt-8">
+        <div className="space-y-lg mt-[32px]">
           {Object.keys(groups).length === 0 ? (
-            <div className="text-center py-20 bg-surface-container-low rounded-[3rem] border border-dashed border-outline-variant max-w-2xl mx-auto">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-on-surface-variant opacity-40 shadow-sm">
+            <div className="text-center py-[80px] bg-surface-container-low rounded-[48px] border border-dashed border-outline-variant max-w-2xl mx-auto">
+              <div className="w-[64px] h-[64px] bg-white rounded-full flex items-center justify-center mx-auto mb-[16px] text-on-surface-variant opacity-40 shadow-sm">
                 <span className="material-symbols-outlined text-3xl">search_off</span>
               </div>
               <p className="text-on-surface-variant text-label-md font-bold uppercase tracking-widest opacity-60">No transactions found</p>

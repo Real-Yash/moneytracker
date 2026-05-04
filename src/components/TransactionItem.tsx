@@ -13,12 +13,12 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
   return (
     <div className="flex items-center justify-between bg-white p-md rounded-xl border border-neutral-100 hover:bg-surface-container-lowest transition-colors cursor-pointer group">
       <div className="flex items-center gap-md">
-        <div className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary-container transition-colors">
+        <div className="w-[40px] h-[40px] rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary-container transition-colors">
           <span className="material-symbols-outlined">{getCategoryIcon(transaction.category)}</span>
         </div>
         <div>
-          <p className="text-label-md text-primary">{transaction.note || transaction.category}</p>
-          <p className="text-label-sm text-secondary">
+          <p className="text-label-md text-primary font-bold">{transaction.note || transaction.category}</p>
+          <p className="text-label-sm text-on-surface-variant">
             {transaction.category} • {format(new Date(transaction.created_at), 'MMM d, yyyy')}
           </p>
         </div>

@@ -4,15 +4,16 @@ import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Navigation } from '@/components/Navigation'
 import { useState, useEffect } from 'react'
+import { User } from '@supabase/supabase-js'
 
 export default function SettingsPage() {
   const supabase = createClient()
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user))
-  }, [])
+  }, [supabase.auth])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

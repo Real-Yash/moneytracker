@@ -2,7 +2,7 @@
 
 import { Transaction } from '@/lib/types'
 import { Navigation } from '@/components/Navigation'
-import { Tooltip, ResponsiveContainer, AreaChart, Area, XAxis } from 'recharts'
+import { Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 import { format, startOfMonth, eachDayOfInterval, endOfMonth, isSameDay } from 'date-fns'
 import { formatCurrency, getCategoryIcon } from '@/lib/utils'
 
@@ -53,33 +53,33 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
   const maxCategoryAmount = Math.max(...topCategories.map((c) => c.amount), 1)
 
   return (
-    <div className="min-h-screen bg-surface-bright pb-32 lg:pb-0 lg:pl-64">
-      <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-neutral-100 flex justify-between items-center px-4 h-16 lg:pl-[272px] lg:px-xl">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container lg:hidden">
+    <div className="min-h-screen bg-surface-bright pb-[128px] lg:pb-0 lg:pl-[256px]">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-neutral-100 flex justify-between items-center px-md h-[64px] lg:pl-[272px] lg:px-xl">
+        <div className="flex items-center gap-md">
+          <div className="w-[32px] h-[32px] rounded-full bg-primary-container flex items-center justify-center text-on-primary-container lg:hidden">
             <span className="material-symbols-outlined text-sm">person</span>
           </div>
           <h1 className="text-label-md font-bold text-neutral-900 uppercase tracking-widest">Financial Insights</h1>
         </div>
       </header>
 
-      <main className="flex-1 mt-16 px-md pt-lg max-w-6xl mx-auto w-full lg:px-xl lg:py-xl">
+      <main className="flex-1 mt-[64px] px-md pt-lg max-w-6xl mx-auto w-full lg:px-xl lg:py-xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-xl">
           <div className="space-y-xl">
             <section>
               <p className="text-label-sm text-on-surface-variant uppercase tracking-widest mb-xs font-bold opacity-60">Monthly Outflow</p>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-[8px]">
                 <span className="text-numeric-display text-primary">{formatCurrency(totalSpending)}</span>
                 <span className="text-label-sm text-on-surface-variant font-medium">in {format(now, 'MMMM')}</span>
               </div>
             </section>
 
             <section>
-              <div className="bg-white p-lg rounded-[2.5rem] border border-neutral-100/50 shadow-sm relative overflow-hidden">
+              <div className="bg-white p-lg rounded-[40px] border border-neutral-100/50 shadow-sm relative overflow-hidden">
                 <div className="flex justify-between items-center mb-lg relative z-10 px-2">
                   <h2 className="text-label-md font-bold uppercase tracking-wider">Spending Trend</h2>
                 </div>
-                <div className="h-56 w-full -ml-4 relative z-10">
+                <div className="h-[224px] w-full -ml-4 relative z-10">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData}>
                       <defs>
@@ -90,7 +90,7 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
                       </defs>
                       <Tooltip 
                         contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 40px -10px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }}
-                        formatter={(value: any) => [formatCurrency(Number(value || 0)), '']}
+                        formatter={(value: string | number | readonly (string | number)[] | undefined) => [formatCurrency(Number(Array.isArray(value) ? value[0] : (value || 0))), '']}
                         labelFormatter={(label) => `Day ${label}`}
                         cursor={{ stroke: '#000000', strokeWidth: 1, strokeDasharray: '4 4' }}
                       />
@@ -106,7 +106,7 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex justify-between mt-2 px-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">
+                <div className="flex justify-between mt-[8px] px-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-40">
                   <span>{format(start, 'MMM d')}</span>
                   <span>{format(end, 'MMM d')}</span>
                 </div>
@@ -114,10 +114,10 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
             </section>
 
             <section className="hidden lg:block">
-              <div className="bg-primary-container p-xl rounded-[2.5rem] text-white shadow-2xl overflow-hidden relative group">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-24 -mt-24 transition-transform group-hover:scale-110"></div>
-                <div className="flex items-start gap-5 relative z-10">
-                  <div className="bg-white/20 p-3 rounded-2xl backdrop-blur-md shadow-lg">
+              <div className="bg-primary-container p-xl rounded-[40px] text-white shadow-2xl overflow-hidden relative group">
+                <div className="absolute top-0 right-0 w-[192px] h-[192px] bg-white/5 rounded-full -mr-[96px] -mt-[96px] transition-transform group-hover:scale-110"></div>
+                <div className="flex items-start gap-[20px] relative z-10">
+                  <div className="bg-white/20 p-md rounded-2xl backdrop-blur-md shadow-lg">
                     <span className="material-symbols-outlined text-white text-[24px]">lightbulb</span>
                   </div>
                   <div>
@@ -140,14 +140,14 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-sm">
                 {topCategories.length === 0 ? (
-                  <div className="col-span-full text-center py-20 bg-white rounded-[2.5rem] border border-dashed border-outline-variant">
+                  <div className="col-span-full text-center py-[80px] bg-white rounded-[40px] border border-dashed border-outline-variant">
                     <p className="text-on-surface-variant text-label-md font-medium opacity-60">No activity to visualize yet.</p>
                   </div>
                 ) : topCategories.map((cat) => (
-                  <div key={cat.name} className="bg-white p-md rounded-[1.5rem] border border-neutral-100/50 shadow-sm transition-transform active:scale-[0.98] group cursor-pointer hover:border-primary/20">
+                  <div key={cat.name} className="bg-white p-md rounded-[24px] border border-neutral-100/50 shadow-sm transition-transform active:scale-[0.98] group cursor-pointer hover:border-primary/20">
                     <div className="flex justify-between items-center mb-sm">
-                      <div className="flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-primary shadow-inner group-hover:bg-primary group-hover:text-white transition-colors">
+                      <div className="flex items-center gap-[16px]">
+                        <div className="w-[44px] h-[44px] rounded-full bg-surface-container flex items-center justify-center text-primary shadow-inner group-hover:bg-primary group-hover:text-white transition-colors">
                           <span className="material-symbols-outlined text-[20px]">{getCategoryIcon(cat.name)}</span>
                         </div>
                         <div>
@@ -162,7 +162,7 @@ export default function InsightsClient({ transactions }: InsightsPageProps) {
                         </span>
                       </div>
                     </div>
-                    <div className="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+                    <div className="w-full bg-surface-container h-[6px] rounded-full overflow-hidden mt-1">
                       <div 
                         className="bg-primary h-full rounded-full transition-all duration-1000 ease-out" 
                         style={{ width: `${(cat.amount / maxCategoryAmount) * 100}%` }}

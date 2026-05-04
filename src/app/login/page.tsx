@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { clsx } from 'clsx'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -36,8 +35,9 @@ export default function LoginPage() {
       }
       router.refresh()
       router.push('/')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An authentication error occurred'
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }

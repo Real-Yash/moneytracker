@@ -21,13 +21,13 @@ export function Navigation() {
       {/* FAB for Mobile/Tablet */}
       <Link
         href="/add"
-        className="fixed bottom-24 right-md md:bottom-10 md:right-10 w-14 h-14 bg-primary text-on-primary rounded-xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all z-40 lg:hidden"
+        className="fixed bottom-[96px] right-md md:bottom-[40px] md:right-[40px] w-[56px] h-[56px] bg-primary text-on-primary rounded-xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all z-40 lg:hidden"
       >
         <span className="material-symbols-outlined text-[28px]">add</span>
       </Link>
 
       {/* Bottom Nav for Mobile/Tablet */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-white/80 backdrop-blur-md border-t border-neutral-100 lg:hidden">
+      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-md pb-safe h-[64px] bg-white/80 backdrop-blur-md border-t border-neutral-100 lg:hidden">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -54,9 +54,9 @@ export function Navigation() {
       </nav>
 
       {/* Sidebar for Desktop */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-white border-r border-neutral-100 flex-col p-lg z-50">
+      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-[256px] bg-white border-r border-neutral-100 flex-col p-lg z-50">
         <div className="mb-xl px-md">
-          <h1 className="text-headline-sm text-primary tracking-tighter">MoneyTrack</h1>
+          <h1 className="text-headline-sm text-primary tracking-tighter font-bold">MoneyTrack</h1>
           <p className="text-label-sm text-on-surface-variant font-medium opacity-60">Personal Finance</p>
         </div>
 
@@ -68,7 +68,7 @@ export function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'flex items-center gap-md px-md py-3 rounded-2xl transition-all font-bold',
+                  'flex items-center gap-md px-md py-[12px] rounded-2xl transition-all font-bold',
                   isActive ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-on-surface-variant hover:bg-surface-container'
                 )}
               >
@@ -86,7 +86,7 @@ export function Navigation() {
 
         <Link
           href="/add"
-          className="mt-auto flex items-center justify-center gap-sm bg-primary text-white py-4 rounded-2xl font-bold shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="mt-auto flex items-center justify-center gap-sm bg-primary text-white py-[16px] rounded-2xl font-bold shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <span className="material-symbols-outlined">add</span>
           <span>Add Transaction</span>

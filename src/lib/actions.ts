@@ -26,9 +26,10 @@ export async function addTransaction(transaction: NewTransaction) {
     revalidatePath('/transactions')
     revalidatePath('/insights')
     return data[0]
-  } catch (error: any) {
+  } catch (error) {
     console.error('addTransaction error:', error)
-    throw new Error(error.message || 'Failed to add transaction')
+    const errorMessage = error instanceof Error ? error.message : 'Failed to add transaction'
+    throw new Error(errorMessage)
   }
 }
 
@@ -49,9 +50,10 @@ export async function updateTransaction(id: string, updates: Partial<NewTransact
     revalidatePath('/transactions')
     revalidatePath('/insights')
     return data[0]
-  } catch (error: any) {
+  } catch (error) {
     console.error('updateTransaction error:', error)
-    throw new Error(error.message || 'Failed to update transaction')
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update transaction'
+    throw new Error(errorMessage)
   }
 }
 
@@ -70,9 +72,10 @@ export async function deleteTransaction(id: string) {
     revalidatePath('/')
     revalidatePath('/transactions')
     revalidatePath('/insights')
-  } catch (error: any) {
+  } catch (error) {
     console.error('deleteTransaction error:', error)
-    throw new Error(error.message || 'Failed to delete transaction')
+    const errorMessage = error instanceof Error ? error.message : 'Failed to delete transaction'
+    throw new Error(errorMessage)
   }
 }
 
@@ -87,7 +90,7 @@ export async function getTransactions() {
 
     if (error) throw new Error(error.message)
     return data || []
-  } catch (error: any) {
+  } catch (error) {
     console.error('getTransactions error:', error)
     return [] // Return empty array on error for safer UI rendering
   }
